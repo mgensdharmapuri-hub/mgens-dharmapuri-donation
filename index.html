@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MGENS Dharmapuri | Contributions</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f6fb;
+  color: #172033;
+}
+
+header {
+  background: #102d59;
+  color: white;
+  text-align: center;
+  padding: 25px 15px;
+}
+
+.logo {
+  width: 95px;
+  height: 95px;
+  object-fit: contain;
+  background: white;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+header h1 {
+  font-size: 21px;
+  margin-bottom: 5px;
+}
+
+header p {
+  margin: 5px;
+}
+
+.language {
+  text-align: right;
+  padding: 12px;
+}
+
+button, select, input {
+  font-size: 16px;
+}
+
+.language button {
+  padding: 9px 15px;
+  border: 0;
+  border-radius: 6px;
+  background: #102d59;
+  color: white;
+  cursor: pointer;
+}
+
+.container {
+  max-width: 480px;
+  margin: 10px auto 35px;
+  padding: 25px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px #00000012;
+}
+
+h2 {
+  text-align: center;
+  color: #102d59;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 7px;
+  border: 1px solid #ccd3df;
+  border-radius: 7px;
+}
+
+.pay {
+  width: 100%;
+  padding: 14px;
+  margin-top: 22px;
+  background: #087b48;
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.copy {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: #102d59;
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.note {
+  background: #fff7df;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 18px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #687386;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="assets/mgens-logo.png"
+       alt="MGENS Logo"
+       class="logo"
+       onerror="this.style.display='none'">
+
+  <h1 id="org">
+    MAHA GANAPATHI ELAINGARGAL NALA SANGAM
+  </h1>
+
+  <p>DHARMAPURI</p>
+  <p id="subtitle">Official Contribution Portal</p>
+</header>
+
+<div class="language">
+  <button onclick="setLanguage('en')">English</button>
+  <button onclick="setLanguage('ta')">தமிழ்</button>
+</div>
+
+<main class="container">
+
+<h2 id="heading">Contribution Form</h2>
+
+<form id="donationForm">
+
+<label id="nameLabel">Contributor Name</label>
+<input type="text" id="name" required
+       placeholder="Enter your name">
+
+<label id="phoneLabel">Mobile Number</label>
+<input type="tel" id="phone" required
+       pattern="[6-9][0-9]{9}"
+       maxlength="10"
+       placeholder="10-digit mobile number">
+
+<label id="categoryLabel">Contribution Category</label>
+<select id="category" required>
+  <option value="Monthly Contribution">Monthly Contribution</option>
+  <option value="Donation">Donation</option>
+  <option value="Member Fees">Member Fees</option>
+</select>
+
+<label id="amountLabel">Amount (Maximum ₹2,000)</label>
+<input type="number" id="amount"
+       min="1" max="2000" step="1"
+       required placeholder="Enter amount">
+
+<button type="submit" class="pay" id="payButton">
+  Proceed to UPI Payment
+</button>
+
+</form>
+
+<button class="copy" onclick="copyUPI()" id="copyButton">
+  Copy Official UPI ID
+</button>
+
+<div class="note" id="instructions">
+  <strong>Important Payment Instructions</strong><br>
+  1. Maximum contribution per transaction is ₹2,000.<br>
+  2. Verify the recipient name in your UPI app before paying.<br>
+  3. Save your UPI transaction reference number.<br>
+  4. Payment will be verified by the association treasurer.<br>
+  5. Receipt will be issued only after verification.
+</div>
+
+<p style="text-align:center;margin-top:20px;">
+  <strong>Official UPI ID</strong><br>
+  <span id="upiText">MAHAGANAPATHI43720@iob</span>
+</p>
+
+</main>
+
+<footer>
+  © MGENS Dharmapuri | All Rights Reserved
+</footer>
+
+<script>
+const UPI_ID = "MAHAGANAPATHI43720@iob";
+const PAYEE_NAME = "MGENS Dharmapuri";
+
+function copyUPI() {
+  navigator.clipboard.writeText(UPI_ID)
+    .then(() => alert("UPI ID copied: " + UPI_ID))
+    .catch(() => alert("Please copy manually: " + UPI_ID));
+}
+
+document.getElementById("donationForm")
+.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const category = document.getElementById("category").value;
+  const amount = Number(document.getElementById("amount").value);
+
+  if (!name || !/^[6-9][0-9]{9}$/.test(phone)) {
+    alert("Please enter a valid name and mobile number.");
+    return;
+  }
+
+  if (!Number.isInteger(amount) || amount < 1 || amount > 2000) {
+    alert("Amount must be between ₹1 and ₹2,000.");
+    return;
+  }
+
+  const transactionNote =
+    "MGENS " + category + " - " + name;
+
+  const upiLink =
+    "upi://pay?pa=" + encodeURIComponent(UPI_ID) +
+    "&pn=" + encodeURIComponent(PAYEE_NAME) +
+    "&am=" + encodeURIComponent(amount.toFixed(2)) +
+    "&cu=INR" +
+    "&tn=" + encodeURIComponent(transactionNote);
+
+  alert(
+    "Your UPI app will open. Please verify the recipient and amount before paying."
+  );
+
+  window.location.href = upiLink;
+});
+
+const translations = {
+  en: {
+    subtitle: "Official Contribution Portal",
+    heading: "Contribution Form",
+    name: "Contributor Name",
+    phone: "Mobile Number",
+    category: "Contribution Category",
+    amount: "Amount (Maximum ₹2,000)",
+    pay: "Proceed to UPI Payment",
+    copy: "Copy Official UPI ID",
+    options: [
+      "Monthly Contribution",
+      "Donation",
+      "Member Fees"
+    ],
+    instructions: "<strong>Important Payment Instructions</strong><br>1. Maximum contribution per transaction is ₹2,000.<br>2. Verify the recipient name in your UPI app before paying.<br>3. Save your UPI transaction reference number.<br>4. Payment will be verified by the association treasurer.<br>5. Receipt will be issued only after verification."
+  },
+  ta: {
+    subtitle: "அதிகாரப்பூர்வ பங்களிப்பு இணையதளம்",
+    heading: "பங்களிப்பு படிவம்",
+    name: "பங்களிப்பாளர் பெயர்",
+    phone: "கைபேசி எண்",
+    category: "பங்களிப்பு வகை",
+    amount: "தொகை (அதிகபட்சம் ₹2,000)",
+    pay: "UPI மூலம் பணம் செலுத்தவும்",
+    copy: "அதிகாரப்பூர்வ UPI ID நகலெடுக்கவும்",
+    options: [
+      "மாதாந்திர பங்களிப்பு",
+      "நன்கொடை",
+      "உறுப்பினர் கட்டணம்"
+    ],
+    instructions: "<strong>முக்கிய பணம் செலுத்தும் அறிவுறுத்தல்கள்</strong><br>1. ஒரு பரிவர்த்தனைக்கான அதிகபட்ச தொகை ₹2,000.<br>2. பணம் செலுத்துவதற்கு முன் பெறுநர் பெயரை சரிபார்க்கவும்.<br>3. UPI பரிவர்த்தனை குறிப்பு எண்ணை சேமிக்கவும்.<br>4. சங்க பொருளாளர் பணம் செலுத்தியதை சரிபார்ப்பார்.<br>5. சரிபார்ப்புக்குப் பிறகே ரசீது வழங்கப்படும்."
+  }
+};
+
+function setLanguage(lang) {
+  const t = translations[lang];
+
+  document.getElementById("subtitle").textContent = t.subtitle;
+  document.getElementById("heading").textContent = t.heading;
+  document.getElementById("nameLabel").textContent = t.name;
+  document.getElementById("phoneLabel").textContent = t.phone;
+  document.getElementById("categoryLabel").textContent = t.category;
+  document.getElementById("amountLabel").textContent = t.amount;
+  document.getElementById("payButton").textContent = t.pay;
+  document.getElementById("copyButton").textContent = t.copy;
+  document.getElementById("instructions").innerHTML = t.instructions;
+
+  const category = document.getElementById("category");
+  category.options[0].text = t.options[0];
+  category.options[1].text = t.options[1];
+  category.options[2].text = t.options[2];
+
+  document.getElementById("name").placeholder =
+    lang === "ta" ? "உங்கள் பெயரை உள்ளிடவும்" : "Enter your name";
+
+  document.getElementById("phone").placeholder =
+    lang === "ta" ? "10 இலக்க கைபேசி எண்" : "10-digit mobile number";
+}
+</script>
+
+</body>
+</html>
